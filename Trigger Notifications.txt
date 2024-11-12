@@ -1,0 +1,17 @@
+useEffect(() => {
+const notifyEvents = () => {
+const now = new Date();
+events.forEach(event => {
+const eventDate = new Date(event.date);
+if (eventDate <= now && !event.notified) {
+new Notification(event.title, {
+body: `Event "${event.title}" is happening now!`,
+});
+event.notified = true; // Mark as notified
+}
+});
+};
+
+const interval = setInterval(notifyEvents, 60000); // Check every minute
+return () => clearInterval(interval);
+}, [events]);

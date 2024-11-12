@@ -1,0 +1,12 @@
+import Calendar from 'react-calendar';
+
+export default function Home() {
+// ... existing code
+const [date, setDate] = useState(new Date());
+
+return (
+<div>
+<Calendar onChange={setDate} value={date} />
+<form onSubmit={createEvent}>
+{/* existing form fields */}
+<button type="submit">Create Event</button>

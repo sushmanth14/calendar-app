@@ -1,0 +1,3 @@
+const snoozeNotification = (event) => {
+setTimeout(() => {
+new Notification(event

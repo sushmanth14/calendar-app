@@ -1,0 +1,27 @@
+import { Injectable } from '@nestjs/common';
+
+interface Event {
+id: number;
+title: string;
+date: string;
+description?: string;
+media?: string[];
+}
+
+@Injectable()
+export class EventsService {
+private events: Event[] = [];
+private idCounter = 1;
+
+create(event: Omit<Event, 'id'>): Event {
+const newEvent = { id: this.idCounter++, ...event };
+this.events.push(newEvent);
+return newEvent;
+}
+
+findAll(): Event[] {
+return this.events;
+}
+
+// Additional methods for update and delete will be added later
+}

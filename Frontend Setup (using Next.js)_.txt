@@ -1,0 +1,2 @@
+npx create-next-app@latest calendar-frontend
+cd calendar-frontend

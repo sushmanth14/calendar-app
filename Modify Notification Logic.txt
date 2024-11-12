@@ -1,0 +1,24 @@
+const notifyEvents = () => {
+const now = new Date();
+events.forEach(event => {
+const eventDate = new Date(event.date);
+if (eventDate <= now && !event.notified) {
+const notification = new Notification(event.title, {
+body: `Event "${event.title}" is happening now!`,
+});
+
+// Add snooze option
+notification.onclick = () => {
+notification.close();
+alert(`Snoozed "${event.title}". It will remind you again in 5 minutes.`);
+event.notified = true; // Mark as notified
+
+setTimeout(() => {
+new Notification(`Reminder: "${event.title}" is happening!`, {
+body: `Event "${event.title}" is happening again!`,
+});
+}, 5 * 60 * 1000); // 5 minutes
+};
+}
+});
+};

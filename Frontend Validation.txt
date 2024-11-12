@@ -1,0 +1,18 @@
+const createEvent = async (e) => {
+e.preventDefault();
+if (!title || !eventDate) {
+alert("Please fill in all fields.");
+return;
+}
+if (new Date(eventDate) < new Date()) {
+alert("Event date cannot be in the past.");
+return;
+}
+await fetch('/api/events', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ title, date: eventDate.toISOString() }),
+});
+setShowForm(false);
+fetchEvents();
+};

@@ -1,0 +1,36 @@
+const [filterType, setFilterType] = useState('all');
+
+const filteredEvents = events.filter(event => {
+if (filterType === 'all') return true;
+// Add filtering logic based on your event types
+return event.media && event.media[0].includes(filterType);
+});
+
+return (
+<div>
+<input
+type="text"
+placeholder="Search events..."
+value={searchTerm}
+onChange={(e) => setSearchTerm(e.target.value)}
+/>
+<select onChange={(e) => setFilterType(e.target.value)} value={filterType}>
+<option value="all">All</option>
+<option value="text">Text</option>
+<option value="image">Images</option>
+<option value="video">Videos</option>
+</select>
+<Calendar onChange={handleDateClick} value={eventDate} />
+{showForm && (
+<form onSubmit={createEvent}>
+{/* existing form fields */}
+<button type="submit">Create Event</button>
+</form>
+)}
+<ul>
+{filteredEvents.map(event => (
+<li key={event.id}>{event.title} - {new Date(event.date).toLocaleString()}</li>
+))}
+</ul>
+</div>
+);

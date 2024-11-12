@@ -1,0 +1,64 @@
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css'; // Import calendar styles
+
+export default function Home() {
+const [events, setEvents] = useState([]);
+const [title, setTitle] = useState('');
+const [eventDate, setEventDate] = useState(new Date());
+const [showForm, setShowForm] = useState(false);
+
+const fetchEvents = async () => {
+const res = await fetch('/api/events');
+const data = await res.json();
+setEvents(data);
+};
+
+const createEvent = async (e) => {
+e.preventDefault();
+await fetch('/api/events', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ title, date: eventDate.toISOString() }),
+});
+setShowForm(false); // Hide form after submission
+fetchEvents();
+};
+
+const handleDateClick = (value) => {
+setEventDate(value);
+setShowForm(true); // Show form when date is clicked
+};
+
+useEffect(() => {
+fetchEvents();
+}, []);
+
+return (
+<div>
+<Calendar onChange={handleDateClick} value={eventDate} />
+{showForm && (
+<form onSubmit={createEvent}>
+<input
+type="text"
+value={title}
+onChange={(e) => setTitle(e.target.value)}
+placeholder="Event Title"
+required
+/>
+<input
+type="datetime-local"
+value={eventDate.toISOString().slice(0, 16)} // Format date for input
+onChange={(e) => setEventDate(new Date(e.target.value))}
+required
+/>
+<button type="submit">Create Event</button>
+</form>
+)}
+<ul>
+{events.map(event => (
+<li key={event.id}>{event.title} - {new Date(event.date).toLocaleString()}</li>
+))}
+</ul>
+</div>
+);
+}

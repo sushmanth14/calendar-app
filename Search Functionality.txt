@@ -1,0 +1,26 @@
+const [searchTerm, setSearchTerm] = useState('');
+
+const filteredEvents = events.filter(event => event.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+return (
+<div>
+<input
+type="text"
+placeholder="Search events..."
+value={searchTerm}
+onChange={(e) => setSearchTerm(e.target.value)}
+/>
+<Calendar onChange={handleDateClick} value={eventDate} />
+{showForm && (
+<form onSubmit={createEvent}>
+{/* existing form fields */}
+<button type="submit">Create Event</button>
+</form>
+)}
+<ul>
+{filteredEvents.map(event => (
+<li key={event.id}>{event.title} - {new Date(event.date).toLocaleString()}</li>
+))}
+</ul>
+</div>
+);
